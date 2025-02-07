@@ -2,6 +2,12 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+  background-color: #555;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .loading {
@@ -16,17 +22,15 @@
   gap: 1rem;
 }
 
-.recipe-card {
+.recipe-card mat-card {
   background-color: #333;
   color: #fff;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
-.recipe-card:hover {
-  transform: scale(1.05);
-}
 
 .recipe-card mat-card-title {
   font-size: 1.2rem;
@@ -51,6 +55,52 @@
   border-radius: 8px;
 }
 
+
+/* Заголовок карточки */
+.mat-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  background-color: #444; /* Темно-серый фон для заголовка */
+}
+
+/* Подзаголовок карточки */
+.mat-card-subtitle {
+  font-size: 0.9rem;
+  color: #ccc; /* Светло-серый цвет для даты создания */
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}
+
+/* Содержимое карточки */
+.mat-card-content {
+  padding: 0.5rem;
+}
+
+/* Список ингредиентов */
+ul {
+  list-style-type: disc; /* Маркированный список */
+  padding-left: 1rem; /* Отступ для маркеров */
+  color: #e0e0e0; /* Цвет текста ингредиентов */
+}
+
+/* Кнопки в карточке */
+.mat-card-actions {
+  display: flex;
+  justify-content: space-between; /* Располагаем кнопки по краям */
+  padding: 0.5rem;
+}
+
+button {
+  background-color: #f7b731; /* Оранжевый цвет кнопок */
+  color: #222; /* Темный текст */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 0.5rem;
+}
+
 .empty-state {
   text-align: center;
   margin-top: 2rem;
@@ -71,10 +121,3 @@
 }
 
 
-mat-form-field {
-  margin: 0.5rem 0;
-}
-
-button {
-  margin-left: 0.5rem;
-}
