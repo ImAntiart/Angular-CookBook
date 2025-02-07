@@ -1,14 +1,15 @@
 export interface Ingredient {
-  name: string; // Название ингредиента
-  quantity: number; // Количество
-  unit: string; // Единица измерения
+  name: string;
+  quantity: number;
+  unit: string;
 }
 
 export interface Recipe {
-  id?: number; // Уникальный ID рецепта
-  name: string; // Название рецепта
-  ingredients: Ingredient[]; // Ингредиенты
-  description: string; // Описание процесса приготовления
-  image?: string; // URL картинки (опционально)
-  createdAt?: Date; // Дата создания (опционально)
+  id?: number;
+  name: string;
+  ingredients: Ingredient[];
+  description: string;
+  image?: string;
+  createdAt?: Date;
+  isEditing?: boolean; // Новое поле для режима редактирования
 }

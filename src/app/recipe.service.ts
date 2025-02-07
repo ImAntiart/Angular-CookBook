@@ -239,7 +239,7 @@ export class RecipeService {
 
   updateRecipe(recipe: Recipe): Observable<Recipe> {
     const index = this.recipes.findIndex(r => r.id === recipe.id);
-    if (index !== -1) this.recipes[index] = recipe;
+    if (index !== -1) this.recipes[index] = { ...recipe }; // Создаем копию объекта
     return of(recipe);
   }
 

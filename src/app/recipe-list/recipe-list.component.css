@@ -69,3 +69,12 @@
 .empty-state button:hover {
   background-color: #f9c91e;
 }
+
+
+mat-form-field {
+  margin: 0.5rem 0;
+}
+
+button {
+  margin-left: 0.5rem;
+}
