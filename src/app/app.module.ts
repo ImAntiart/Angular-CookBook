@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card'; // Карточки Mate
 import { MatFormFieldModule } from '@angular/material/form-field'; // Поля формы Material
 import { MatInputModule } from '@angular/material/input'; // Ввод текста Material
 import { MatTableModule } from '@angular/material/table'; // Таблицы Material
+import { FormsModule } from '@angular/forms'; // Добавьте эту строку
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MatTableModule } from '@angular/material/table'; // Таблицы Mate
     RecipeDetailComponent
   ],
   imports: [
-    BrowserModule, // Основной модуль для браузера
+    BrowserModule,
+    FormsModule,
     AppRoutingModule, // Маршрутизация
     ReactiveFormsModule, // Реактивные формы
     BrowserAnimationsModule, // Анимации для Material
