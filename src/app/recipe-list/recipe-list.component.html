@@ -1,9 +1,12 @@
 <div class="container">
   <h2>Список рецептов</h2>
 
-  <!-- Цикл для отображения всех рецептов -->
-  <div *ngFor="let recipe of recipes" class="recipe-card">
-    <mat-card>
+  <!-- Загрузка -->
+  <div *ngIf="loading" class="loading">Загрузка...</div>
+
+  <!-- Список рецептов -->
+  <div *ngIf="!loading && recipes.length > 0" class="recipe-list">
+    <mat-card *ngFor="let recipe of recipes" class="recipe-card">
       <mat-card-title>{{ recipe.name }}</mat-card-title>
       <mat-card-subtitle>Создан: {{ recipe.createdAt | date:'mediumDate' }}</mat-card-subtitle>
 
@@ -19,55 +22,53 @@
           </ul>
         </mat-card-content>
         <mat-card-actions>
-          <!-- Кнопки для перехода в режим редактирования или удаления рецепта -->
           <button mat-button (click)="toggleEdit(recipe)">Редактировать</button>
-          <button mat-button *ngIf="recipe.id" (click)="deleteRecipe(recipe.id)">Удалить</button>
+          <button mat-button (click)="deleteRecipe(recipe.id)">Удалить</button>
         </mat-card-actions>
       </div>
 
       <!-- Режим редактирования -->
       <div *ngIf="recipe.isEditing">
-        <mat-card-content>
-          <!-- Форма для редактирования рецепта -->
-          <form (ngSubmit)="saveRecipe(recipe)"> <!-- Используйте (ngSubmit) вместо (submit) -->
-            <!-- Поле для названия рецепта -->
+        <form (ngSubmit)="saveRecipe(recipe)" #recipeForm="ngForm">
+          <!-- Название рецепта -->
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Название" [(ngModel)]="recipe.name" name="name" required />
+          </mat-form-field>
+
+          <!-- Описание рецепта -->
+          <mat-form-field appearance="outline">
+            <textarea matInput placeholder="Описание" [(ngModel)]="recipe.description" name="description"></textarea>
+          </mat-form-field>
+
+          <!-- Ингредиенты -->
+          <h3>Ингредиенты</h3>
+          <div *ngFor="let ingredient of recipe.ingredients; let i = index">
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Название" [(ngModel)]="recipe.name" name="name" required />
+              <input matInput placeholder="Название" [(ngModel)]="ingredient.name" name="ingredientName_{{i}}" />
             </mat-form-field>
-
-            <!-- Поле для описания рецепта -->
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Описание" [(ngModel)]="recipe.description" name="description"></textarea>
+              <input matInput type="number" placeholder="Количество" [(ngModel)]="ingredient.quantity" name="ingredientQuantity_{{i}}" />
             </mat-form-field>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Единица измерения" [(ngModel)]="ingredient.unit" name="ingredientUnit_{{i}}" />
+            </mat-form-field>
+            <button mat-button (click)="removeIngredient(recipe, i)">Удалить ингредиент</button>
+          </div>
 
-            <!-- Секция для ингредиентов -->
-            <h3>Ингредиенты</h3>
-            <div *ngFor="let ingredient of recipe.ingredients; let i = index">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Название" [(ngModel)]="ingredient.name" name="ingredientName_{{i}}" />
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <input matInput type="number" placeholder="Количество" [(ngModel)]="ingredient.quantity" name="ingredientQuantity_{{i}}" />
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Единица измерения" [(ngModel)]="ingredient.unit" name="ingredientUnit_{{i}}" />
-              </mat-form-field>
-              <button mat-button (click)="removeIngredient(recipe, i)">Удалить ингредиент</button>
-            </div>
+          <!-- Добавление нового ингредиента -->
+          <button mat-button (click)="addIngredient(recipe)">Добавить ингредиент</button>
 
-            <!-- Кнопка для добавления нового ингредиента -->
-            <button mat-button (click)="addIngredient(recipe)">Добавить ингредиент</button>
-
-            <!-- Кнопки для сохранения или отмены редактирования -->
-            <button mat-button type="submit">Сохранить</button> <!-- Убедитесь, что тип кнопки — "submit" -->
-            <button mat-button (click)="cancelEdit(recipe)">Отмена</button>
-          </form>
-        </mat-card-content>
+          <!-- Кнопки управления -->
+          <button mat-button type="submit">Сохранить</button>
+          <button mat-button (click)="cancelEdit(recipe)">Отмена</button>
+        </form>
       </div>
+    </mat-card>
+  </div>
 
-  <!-- Сообщение, если рецептов нет -->
-  <div *ngIf="recipes.length === 0" class="empty-state">
+  <!-- Если рецептов нет -->
+  <div *ngIf="!loading && recipes.length === 0" class="empty-state">
     <p>Нет рецептов. Создайте свой первый рецепт!</p>
     <button mat-button routerLink="/recipes/new">Создать рецепт</button>
   </div>
-
+</div>

@@ -15,14 +15,15 @@ export class RecipeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipeService.getRecipes().subscribe((data) => {
-      this.recipes = data;
+      this.recipes = data.map(recipe => ({ ...recipe, isEditing: false })); // Инициализируем isEditing как false
       this.loading = false;
     });
   }
 
   // Переключение между режимами "просмотр" и "редактирование"
   toggleEdit(recipe: Recipe): void {
-    recipe.isEditing = !recipe.isEditing;
+    this.recipes.forEach(r => (r.isEditing = false)); // Закрываем все открытые формы
+    recipe.isEditing = true;
   }
 
   // Отмена редактирования
@@ -30,6 +31,14 @@ export class RecipeListComponent implements OnInit {
     recipe.isEditing = false;
   }
 
+  // Сохранение изменений
+  saveRecipe(recipe: Recipe): void {
+    if (!recipe.id) return;
+
+    this.recipeService.updateRecipe(recipe).subscribe(() => {
+      recipe.isEditing = false; // Выход из режима редактирования после сохранения
+    });
+  }
 
   // Удаление ингредиента
   removeIngredient(recipe: Recipe, index: number): void {
@@ -40,17 +49,11 @@ export class RecipeListComponent implements OnInit {
   addIngredient(recipe: Recipe): void {
     recipe.ingredients.push({ name: '', quantity: 0, unit: '' });
   }
-/// СОХРАНЕНИЕ изменений при нажатии на кнопку
-saveRecipe(recipe: Recipe): void {
-  if (!recipe.id) return; // Проверяем, что ID существует
-
-  this.recipeService.updateRecipe(recipe).subscribe(() => {
-    recipe.isEditing = false; // Закрываем режим редактирования
-  });
-}
 
   // Удаление рецепта
-  deleteRecipe(id: number): void {
+  deleteRecipe(id: number | undefined): void {
+    if (id === undefined) return;
+
     if (confirm('Вы уверены, что хотите удалить этот рецепт?')) {
       this.recipeService.deleteRecipe(id).subscribe(() => {
         this.recipes = this.recipes.filter(recipe => recipe.id !== id);
