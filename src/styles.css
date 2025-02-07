@@ -1,1 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
+/* Общие настройки */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #222;
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+.header {
+  background-color: #333;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.header nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #f7b731; /* Оранжевый при наведении */
+}
+
+/* Main */
+.main {
+  background-color: #444;
+  min-height: 60vh;
+  padding: 1rem 0;
+}
+
+/* Footer */
+.footer {
+  background-color: #555;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.9rem;
+}
+
+/* Элементы Angular Material */
+.mat-button {
+  background-color: #666;
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.mat-button:hover {
+  background-color: #f9c91e; /* Желтый при наведении */
+}
