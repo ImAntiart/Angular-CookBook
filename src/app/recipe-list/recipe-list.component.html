@@ -1,6 +1,7 @@
 <div class="container">
   <h2>Список рецептов</h2>
 
+  <!-- Цикл для отображения всех рецептов -->
   <div *ngFor="let recipe of recipes" class="recipe-card">
     <mat-card>
       <mat-card-title>{{ recipe.name }}</mat-card-title>
@@ -18,23 +19,28 @@
           </ul>
         </mat-card-content>
         <mat-card-actions>
+          <!-- Кнопки для перехода в режим редактирования или удаления рецепта -->
           <button mat-button (click)="toggleEdit(recipe)">Редактировать</button>
-          <button mat-button (click)="deleteRecipe(recipe.id)">Удалить</button>
+          <button mat-button *ngIf="recipe.id" (click)="deleteRecipe(recipe.id)">Удалить</button>
         </mat-card-actions>
       </div>
 
       <!-- Режим редактирования -->
       <div *ngIf="recipe.isEditing">
         <mat-card-content>
-          <form (submit)="saveRecipe(recipe)">
+          <!-- Форма для редактирования рецепта -->
+          <form (ngSubmit)="saveRecipe(recipe)"> <!-- Используйте (ngSubmit) вместо (submit) -->
+            <!-- Поле для названия рецепта -->
             <mat-form-field appearance="outline">
               <input matInput placeholder="Название" [(ngModel)]="recipe.name" name="name" required />
             </mat-form-field>
 
+            <!-- Поле для описания рецепта -->
             <mat-form-field appearance="outline">
               <textarea matInput placeholder="Описание" [(ngModel)]="recipe.description" name="description"></textarea>
             </mat-form-field>
 
+            <!-- Секция для ингредиентов -->
             <h3>Ингредиенты</h3>
             <div *ngFor="let ingredient of recipe.ingredients; let i = index">
               <mat-form-field appearance="outline">
@@ -49,13 +55,19 @@
               <button mat-button (click)="removeIngredient(recipe, i)">Удалить ингредиент</button>
             </div>
 
+            <!-- Кнопка для добавления нового ингредиента -->
             <button mat-button (click)="addIngredient(recipe)">Добавить ингредиент</button>
 
-            <button mat-button type="submit">Сохранить</button>
+            <!-- Кнопки для сохранения или отмены редактирования -->
+            <button mat-button type="submit">Сохранить</button> <!-- Убедитесь, что тип кнопки — "submit" -->
             <button mat-button (click)="cancelEdit(recipe)">Отмена</button>
           </form>
         </mat-card-content>
       </div>
-    </mat-card>
+
+  <!-- Сообщение, если рецептов нет -->
+  <div *ngIf="recipes.length === 0" class="empty-state">
+    <p>Нет рецептов. Создайте свой первый рецепт!</p>
+    <button mat-button routerLink="/recipes/new">Создать рецепт</button>
   </div>
-</div>
+

@@ -30,12 +30,6 @@ export class RecipeListComponent implements OnInit {
     recipe.isEditing = false;
   }
 
-  // Сохранение изменений
-  saveRecipe(recipe: Recipe): void {
-    this.recipeService.updateRecipe(recipe).subscribe(() => {
-      recipe.isEditing = false; // Выход из режима редактирования после сохранения
-    });
-  }
 
   // Удаление ингредиента
   removeIngredient(recipe: Recipe, index: number): void {
@@ -46,6 +40,14 @@ export class RecipeListComponent implements OnInit {
   addIngredient(recipe: Recipe): void {
     recipe.ingredients.push({ name: '', quantity: 0, unit: '' });
   }
+/// СОХРАНЕНИЕ изменений при нажатии на кнопку
+saveRecipe(recipe: Recipe): void {
+  if (!recipe.id) return; // Проверяем, что ID существует
+
+  this.recipeService.updateRecipe(recipe).subscribe(() => {
+    recipe.isEditing = false; // Закрываем режим редактирования
+  });
+}
 
   // Удаление рецепта
   deleteRecipe(id: number): void {

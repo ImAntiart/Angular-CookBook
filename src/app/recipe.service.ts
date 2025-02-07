@@ -223,7 +223,9 @@ export class RecipeService {
 
   // Методы CRUD остаются без изменений
   getRecipes(): Observable<Recipe[]> {
-    return of(this.recipes);
+    return of(
+      this.recipes.map(recipe => ({ ...recipe, isEditing: false })) // Инициализируем isEditing как false
+    );
   }
 
   getRecipe(id: number): Observable<Recipe | undefined> {
