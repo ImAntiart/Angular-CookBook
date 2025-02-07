@@ -1,1 +1,37 @@
-<p>recipe-form works!</p>
+<mat-card>
+  <mat-card-title>Создание рецепта</mat-card-title>
+
+  <form (ngSubmit)="saveRecipe()" #recipeForm="ngForm">
+    <!-- Название рецепта -->
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Название" [(ngModel)]="recipe.name" name="name" required />
+    </mat-form-field>
+
+    <!-- Описание рецепта -->
+    <mat-form-field appearance="outline">
+      <textarea matInput placeholder="Описание" [(ngModel)]="recipe.description" name="description"></textarea>
+    </mat-form-field>
+
+    <!-- Ингредиенты -->
+    <h3>Ингредиенты</h3>
+    <div *ngFor="let ingredient of recipe.ingredients; let i = index">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Название" [(ngModel)]="ingredient.name" name="ingredientName_{{i}}" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput type="number" placeholder="Количество" [(ngModel)]="ingredient.quantity" name="ingredientQuantity_{{i}}" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Единица измерения" [(ngModel)]="ingredient.unit" name="ingredientUnit_{{i}}" />
+      </mat-form-field>
+      <button mat-button (click)="removeIngredient(i)">Удалить ингредиент</button>
+    </div>
+
+    <!-- Добавление нового ингредиента -->
+    <button mat-button (click)="addIngredient()">Добавить ингредиент</button>
+
+    <!-- Кнопки управления -->
+    <button mat-button type="submit">Создать рецепт</button>
+    <button mat-button (click)="cancel()">Отмена</button>
+  </form>
+</mat-card>
