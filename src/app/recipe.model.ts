@@ -11,5 +11,5 @@ export interface Recipe {
   description: string;
   image?: string;
   createdAt?: Date;
-  isEditing?: boolean; // Новое поле для режима редактирования
+  isEditing?: boolean;
 }

@@ -18,19 +18,21 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Сохранение нового рецепта
+  // Сохранение рецепта
   saveRecipe(): void {
-    if (!this.recipe.name.trim()) return; // Проверяем, что название не пустое
+    if (!this.recipe.name.trim()) return;
 
-    this.recipeService.createRecipe({ ...this.recipe }).subscribe(() => {
-      alert('Рецепт успешно создан!');
-      this.resetForm(); // Сбрасываем форму после создания
-    });
-  }
-
-  // Отмена создания рецепта
-  cancel(): void {
-    this.resetForm();
+    if (this.recipe.id) {
+      this.recipeService.updateRecipe({ ...this.recipe }).subscribe(() => {
+        alert('Рецепт успешно обновлен!');
+        this.resetForm();
+      });
+    } else {
+      this.recipeService.createRecipe({ ...this.recipe }).subscribe(() => {
+        alert('Рецепт успешно создан!');
+        this.resetForm();
+      });
+    }
   }
 
   // Сброс формы
@@ -38,11 +40,32 @@ export class RecipeFormComponent implements OnInit {
     this.recipe = {
       name: '',
       description: '',
-      ingredients: [{ name: '', quantity: 0, unit: '' }]
+      ingredients: [{ name: '', quantity: 0, unit: '' }],
+      image: ''
     };
   }
 
-  // Добавление нового ингредиента
+  // Выбор файла
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.recipe.image = e.target?.result as string; // Преобразуем файл в base64
+      };
+
+      reader.readAsDataURL(file); // Читаем файл как DataURL
+    }
+  }
+
+  // Отмена
+  cancel(): void {
+    this.resetForm();
+  }
+
+  // Добавление ингредиента
   addIngredient(): void {
     this.recipe.ingredients.push({ name: '', quantity: 0, unit: '' });
   }

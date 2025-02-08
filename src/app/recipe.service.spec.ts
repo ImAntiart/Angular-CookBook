@@ -14,6 +14,7 @@ describe('RecipeService', () => {
     expect(service).toBeTruthy();
   });
 
+  // Тест на создание рецепта
   it('should create a new recipe', () => {
     const newRecipe: Recipe = {
       id: 0,
@@ -29,12 +30,14 @@ describe('RecipeService', () => {
     });
   });
 
+  // Тест на получение всех рецептов
   it('should get all recipes', () => {
     service.getRecipes().subscribe((recipes) => {
       expect(recipes.length).toBeGreaterThanOrEqual(0); // Проверяем, что список не пустой
     });
   });
 
+  // Тест на удаление рецепта
   it('should delete a recipe', () => {
     const newRecipe: Recipe = {
       id: 1,
@@ -44,10 +47,18 @@ describe('RecipeService', () => {
       image: 'test.jpg',
     };
 
+    // Создаем рецепт
     service.createRecipe(newRecipe).subscribe(() => {
-      service.deleteRecipe(1).subscribe(() => {
-        service.getRecipes().subscribe((recipes) => {
-          expect(recipes.find((r) => r.id === 1)).toBeUndefined(); // Проверяем, что рецепт удален
+      // Проверяем, что рецепт создан
+      service.getRecipes().subscribe((recipes) => {
+        expect(recipes.find(r => r.id === 1)).toBeDefined(); // Рецепт должен существовать
+
+        // Удаляем рецепт
+        service.deleteRecipe(1).subscribe(() => {
+          // Проверяем, что рецепт удален
+          service.getRecipes().subscribe((updatedRecipes) => {
+            expect(updatedRecipes.find(r => r.id === 1)).toBeUndefined(); // Рецепт должен быть удален
+          });
         });
       });
     });
