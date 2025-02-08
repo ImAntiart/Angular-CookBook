@@ -56,8 +56,8 @@ removeIngredient(recipe: Recipe, index: number): void {
 recipe.ingredients.splice(index, 1);
 }
 // Добавление нового ингредиента
+// Добавление нового ингредиента
 addIngredient(recipe: Recipe): void {
-recipe.ingredients.push({ name: '', quantity: 0, unit: '' });
+  recipe.ingredients.push({ name: '', quantity: 0, unit: '' });
 }
-
 }

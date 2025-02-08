@@ -33,12 +33,8 @@
       </mat-form-field>
       <button mat-button (click)="removeIngredient(i)">Удалить ингредиент</button>
     </div>
-
-    <!-- Добавление нового ингредиента -->
-    <button mat-button (click)="addIngredient()">Добавить ингредиент</button>
-
-    <!-- Кнопки управления -->
-    <button mat-button type="submit">Сохранить</button>
+    <button mat-button type="submit">Сохранить рецепт</button>
+    <button mat-button type="button" (click)="addIngredient()">Добавить ингредиент</button>
     <button mat-button (click)="cancel()">Отмена</button>
   </form>
 </mat-card>

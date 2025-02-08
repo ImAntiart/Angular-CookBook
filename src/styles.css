@@ -5,10 +5,13 @@
   box-sizing: border-box;
 }
 
-body {
+body, app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
   font-family: Arial, sans-serif;
   line-height: 1.6;
-  background-color: #222;
+  background-color: #555;
   color: #fff;
 }
 
@@ -18,53 +21,7 @@ body {
   padding: 1rem;
 }
 
-/* Header */
-.header {
-  background-color: #333;
-  padding: 1rem 0;
-  text-align: center;
-}
 
-.header h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.header nav {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.nav-link {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.nav-link:hover {
-  background-color: #f7b731; /* Оранжевый при наведении */
-}
-
-/* Main */
-.main {
-  background-color: #444;
-  min-height: 60vh;
-  padding: 1rem 0;
-}
-
-/* Footer */
-.footer {
-  background-color: #555;
-  padding: 1rem 0;
-  text-align: center;
-}
-
-.footer p {
-  font-size: 0.9rem;
-}
 
 /* Элементы Angular Material */
 .mat-button {
