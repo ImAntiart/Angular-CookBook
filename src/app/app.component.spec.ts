@@ -17,16 +17,16 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(component).toBeTruthy(); // Проверяем, что компонент создан
+    expect(component).toBeTruthy();
   });
 
   it('should render title in header', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Необычный вкус'); // Проверяем заголовок
+    expect(compiled.querySelector('h1')?.textContent).toContain('Необычный вкус');
   });
 
   it('should render footer', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('footer')?.textContent).toContain('© 2025 Поваренная книга, Antiart'); // Проверяем подвал
+    expect(compiled.querySelector('footer')?.textContent).toContain('© 2025 Поваренная книга, Antiart');
   });
 });

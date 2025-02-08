@@ -6,11 +6,11 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' }, // Главная страница перенаправляется на /recipes
-  { path: 'recipes', component: RecipeListComponent }, // Маршрут для списка рецептов
-  { path: 'recipes/new', component: RecipeFormComponent }, // Маршрут для создания рецепта
-  { path: 'recipes/:id/edit', component: RecipeFormComponent }, // Маршрут для редактирования
-  { path: 'recipes/:id', component: RecipeDetailComponent } // Маршрут для просмотра деталей рецепта
+  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+  { path: 'recipes', component: RecipeListComponent },
+  { path: 'recipes/new', component: RecipeFormComponent },
+  { path: 'recipes/:id/edit', component: RecipeFormComponent },
+  { path: 'recipes/:id', component: RecipeDetailComponent }
 ];
 
 @NgModule({

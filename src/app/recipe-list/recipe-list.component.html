@@ -1,66 +1,89 @@
-<div class="container">
-  <h2>Список рецептов</h2>
-  <!-- Загрузка -->
-  <div *ngIf="loading" class="loading">Загрузка...</div>
-  <!-- Список рецептов -->
-  <div *ngFor="let recipe of recipes" class="recipe-card">
-  <mat-card>
-  <mat-card-title>
-  {{ recipe.name }}
-  <img *ngIf="recipe.image" [src]="recipe.image" alt="{{ recipe.name }}" class="recipe-image" />
-  </mat-card-title>
-  <mat-card-subtitle>Создан: {{ recipe.createdAt | date:'mediumDate' }}</mat-card-subtitle>
-  <!-- Режим просмотра -->
-  <div *ngIf="!recipe.isEditing">
-  <mat-card-content>
-  <p><strong>Описание:</strong> {{ recipe.description }}</p>
-  <p><strong>Ингредиенты:</strong></p>
-  <ul>
-  <li *ngFor="let ingredient of recipe.ingredients">
-  {{ ingredient.name }} - {{ ingredient.quantity }} {{ ingredient.unit }}
-  </li>
-  </ul>
-  </mat-card-content>
-  <mat-card-actions>
-  <button mat-button (click)="toggleEdit(recipe)">Редактировать</button>
-  <button mat-button (click)="deleteRecipe(recipe.id)">Удалить</button>
-  </mat-card-actions>
-  </div>
-  <!-- Режим редактирования -->
-  <div *ngIf="recipe.isEditing">
-  <form (ngSubmit)="saveRecipe(recipe)">
 
-  <!-- Название рецепта -->
-  <mat-form-field appearance="outline">
-  <input matInput placeholder="Название" [(ngModel)]="recipe.name" name="name" required />
-  </mat-form-field>
-  <!-- Описание рецепта -->
-  <mat-form-field appearance="outline">
-  <textarea matInput placeholder="Описание" [(ngModel)]="recipe.description" name="description"></textarea>
-  </mat-form-field>
-  <!-- Ингредиенты -->
-  <h3>Ингредиенты</h3>
-  <div *ngFor="let ingredient of recipe.ingredients; let i = index">
-  <mat-form-field appearance="outline">
-  <input matInput placeholder="Название" [(ngModel)]="ingredient.name" name="ingredientName_{{i}}" />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-  <input matInput type="number" placeholder="Количество" [(ngModel)]="ingredient.quantity" name="ingredientQuantity_{{i}}" />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-  <input matInput placeholder="Единица измерения" [(ngModel)]="ingredient.unit" name="ingredientUnit_{{i}}" />
-  </mat-form-field>
-  <button mat-button (click)="removeIngredient(recipe, i)">Удалить ингредиент</button>
+<div class="container">
+  <div class="recipe-header">
+    <h2>Список рецептов</h2>
   </div>
-  <button mat-button type="submit">Сохранить рецепт</button>
-  <button mat-button type="button" (click)="addIngredient(recipe)">Добавить ингредиент</button>
-  <button mat-button (click)="cancelEdit(recipe)">Отмена</button>
-  </form>
+
+
+  <div *ngIf="loading" class="loading">
+    Загрузка...
   </div>
-  </mat-card> </div>
-  <!-- Если рецептов нет -->
+
+
+  <div class="recipe-list">
+    <div *ngFor="let recipe of recipes" class="recipe-card">
+      <mat-card>
+
+        <div class="recipe-card-actions">
+          <button mat-button (click)="toggleEdit(recipe)">Редактировать</button>
+          <button mat-button (click)="deleteRecipe(recipe.id)">Удалить</button>
+        </div>
+
+        <img *ngIf="recipe.image" [src]="recipe.image" alt="{{ recipe.name }}" class="recipe-image" />
+        <div *ngIf="!recipe.isEditing" class="recipe-card-content">
+        <mat-card-title>{{ recipe.name }}</mat-card-title>
+
+
+        <mat-card-subtitle>Создан: {{ recipe.createdAt | date:'mediumDate' }}</mat-card-subtitle>
+          <p><strong>Описание:</strong> {{ recipe.description }}</p>
+          <p><strong>Ингредиенты:</strong></p>
+          <ul>
+            <li *ngFor="let ingredient of recipe.ingredients">
+              {{ ingredient.name }} - {{ ingredient.quantity }} {{ ingredient.unit }}
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="recipe.isEditing" class="recipe-edit-container">
+          <form (ngSubmit)="saveRecipe(recipe)" class="recipe-form">
+
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Название" [(ngModel)]="recipe.name" name="name" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <textarea matInput placeholder="Описание" [(ngModel)]="recipe.description" name="description"></textarea>
+            </mat-form-field>
+
+            <h3>Ингредиенты</h3>
+            <div *ngFor="let ingredient of recipe.ingredients; let i = index" class="ingredient-item">
+
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Название" [(ngModel)]="ingredient.name" name="ingredientName_{{i}}" />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <input matInput type="number" placeholder="Количество" [(ngModel)]="ingredient.quantity" name="ingredientQuantity_{{i}}" />
+              </mat-form-field>
+
+
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Единица измерения" [(ngModel)]="recipe.ingredients[i].unit" name="ingredientUnit_{{i}}" />
+              </mat-form-field>
+
+              <button mat-button class="remove-ingredient-button" (click)="removeIngredient(recipe, i)">
+                Удалить
+              </button>
+            </div>
+
+            <button mat-button class="add-ingredient-button" type="button" (click)="addIngredient(recipe)">
+              Добавить ингредиент
+            </button>
+
+
+            <div class="recipe-form-actions">
+              <button mat-button class="recipe-form-button" type="submit">Сохранить рецепт</button>
+              <button mat-button class="recipe-form-button" (click)="cancelEdit(recipe)">Отмена</button>
+            </div>
+          </form>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+
   <div *ngIf="!loading && recipes.length === 0" class="empty-state">
-  <p>Нет рецептов. Создайте свой первый рецепт!</p>
-  <button mat-button routerLink="/recipes/new">Создать рецепт</button>
+    <p>Нет рецептов. Создайте свой первый рецепт!</p>
+    <button mat-button routerLink="/recipes/new">Создать рецепт</button>
   </div>
-  </div>
+</div>
